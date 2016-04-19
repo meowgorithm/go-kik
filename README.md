@@ -14,7 +14,7 @@ webhook for receiving. Note that SSL is required on the webhook end.
 For local developement you could use something like [Localtunnel][lt] to expose
 your development machine over SSL.
 
-lt: [http://localtunnel.me/]
+[lt]: http://localtunnel.me/
 
 ## Quick Example
 
