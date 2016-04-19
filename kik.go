@@ -13,7 +13,6 @@ const (
 	Suggested = "suggested" // default keyboard type
 
 	apiEndpoint = "https://api.kik.com/v1"
-	batchLimit  = 5 // Maximum messages that can be sent at once, enforeced by Kik.
 	get         = "GET"
 	post        = "POST"
 )
