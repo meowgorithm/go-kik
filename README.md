@@ -18,7 +18,7 @@ your development machine over SSL.
 
 ## Quick Example
 
-	package main
+    package main
 
     import (
         "kik"
@@ -33,6 +33,7 @@ your development machine over SSL.
     func main() {
 
         // Client for making API requests
+
         client = &kik.Client{
             Username: "username",
             ApiKey:   "api-key",
@@ -41,18 +42,20 @@ your development machine over SSL.
         }
 
         // Check Kik config
+
         if _, err := client.GetConfig(), err != nil {
             log.Printf("Error reading config: %s", err)
         }
 
         // Set Kik config
+
         config := kik.Config{
             Callback: &kikWebhookUrl,
             Features: kik.Features{
-                ReceiveReadReceipts: false,
-                ReceiveIsTyping: false,
+                ReceiveReadReceipts:      false,
+                ReceiveIsTyping:          false,
                 ManuallySendReadReceipts: false,
-                ReceiveDeliveryReceipts: false,
+                ReceiveDeliveryReceipts:  false,
             },
         }
         if err := client.SetConfig(config); err != nil {
@@ -60,18 +63,21 @@ your development machine over SSL.
         }
 
         // Incoming webhook handler for Kik
+
         http.HandleFunc("/", client.Webhook)
         http.ListenAndServe(":8000", nil)
     }
 
     // Handle incoming messages
+
     func handleMessages(p kik.Payload, err error) {
 
         // Custom keyboard
+
         k := []kik.Keyboard{
             kik.Keyboard{
-                Hidden: false,
-                Type:   kik.Suggested,
+                Hidden:    false,
+                Type:      kik.Suggested,
                 Responses: []kik.KeyboardResponse{
                     kik.KeyboardResponse{
                         Type: kik.Text,
@@ -81,17 +87,20 @@ your development machine over SSL.
             },
         }
 
-        // Interate over incoming messages
+        // Reply to incoming messages
+
         var m []kik.Message
         for _, in := range p.Messages {
             out := Message{
-                ChatId: in.ChatId,
-                To: in.From,
-                Body: "Hello world!",
+                ChatId:    in.ChatId,
+                To:        in.From,
+                Body:      "Hello world!",
                 Keyboards: k
             }
             m = append(m, out)
         }
+
+        // Send messages
 
         client.SendMessages(m)
     }
