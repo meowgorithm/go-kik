@@ -11,7 +11,7 @@ Bindings for the Kik API. No external dependencies.
 Kik operates over a send-receive system utilizing REST calls for sending and a
 webhook for receiving. Note that SSL is required on the webhook end.
 
-For local developement you could use something like [Localtunnel][lt] to expose
+For local development you could use something like [Localtunnel][lt] to expose
 your development machine over SSL.
 
 [lt]: http://localtunnel.me/
