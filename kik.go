@@ -91,6 +91,7 @@ func (c *Client) Webhook(w http.ResponseWriter, r *http.Request) {
 }
 
 // Peform an HTTP request against the Kik API
+// Returns an HTTP status code, response body and error
 func (c *Client) apiRequest(method string, path string, reqBody *[]byte) (int, []byte, error) {
 	var (
 		url      string = apiEndpoint + path
