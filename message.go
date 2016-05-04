@@ -14,6 +14,7 @@ type Message struct {
 	Timestamp            int64      `json:"timestamp,omitempty"`
 	ReadReceiptRequested bool       `json:"readReceiptRequested,omitempty"`
 	Mention              *string    `json:"mentions,omitempty"`
+	TypeTime             int        `json:"typeTime,omitempty"`
 	Keyboards            []Keyboard `json:"keyboards,omitempty"`
 }
 
