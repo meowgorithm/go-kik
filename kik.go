@@ -9,12 +9,12 @@ import (
 )
 
 const (
-	Text      = "text"      // default message type
-	Suggested = "suggested" // default keyboard type
+	Text      string = "text"      // default message type
+	Suggested string = "suggested" // default keyboard type
 
-	apiEndpoint = "https://api.kik.com/v1"
-	get         = "GET"
-	post        = "POST"
+	apiEndpoint string = "https://api.kik.com/v1"
+	get         string = "GET"  // http verb
+	post        string = "POST" // http verb
 )
 
 // Kik API errors
