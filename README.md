@@ -28,6 +28,7 @@ your development machine over SSL.
 
     var (
         client *kik.Client
+        webhookUrl string // public-facing URL
     )
 
     func main() {
@@ -50,7 +51,7 @@ your development machine over SSL.
         // Set Kik config
 
         config := kik.Config{
-            Callback: &kikWebhookUrl,
+            Callback: &webhookUrl,
             Features: kik.Features{
                 ReceiveReadReceipts:      false,
                 ReceiveIsTyping:          false,
