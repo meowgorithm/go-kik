@@ -9,26 +9,30 @@ import (
 )
 
 const (
-	Text      string = "text"      // default message type
-	Suggested string = "suggested" // default keyboard type
+
+	// Text is the default message type
+	Text string = "text"
+
+	// Suggested is the deafult keyboard type
+	Suggested string = "suggested"
 
 	apiEndpoint string = "https://api.kik.com/v1"
 	get         string = "GET"  // http verb
 	post        string = "POST" // http verb
 )
 
-// Kik API errors
-type ApiError struct {
+// APIError references Kik API errors
+type APIError struct {
 	ErrorText string `json:"error,omitempty"`
 	Message   string `json:"message,omitempty"`
 }
 
 // Implement the `Error()` interface
-func (a ApiError) Error() string {
+func (a APIError) Error() string {
 	return a.Message
 }
 
-// Set of messages recieved via webhook
+// Payload is a set of messages recieved via webhook
 type Payload struct {
 	Username string    // identifies the user to which these messages were sent
 	Messages []Message `json:"messages,omitempty"`
@@ -37,10 +41,10 @@ type Payload struct {
 // End-user callback for handling webhook events
 type webhookCallback func(Payload, error)
 
-// Kik API Client
+// Client is the Kik API client
 type Client struct {
 	Username string
-	ApiKey   string
+	APIKey   string
 	Verbose  bool
 	Callback webhookCallback
 }
@@ -94,12 +98,12 @@ func (c *Client) Webhook(w http.ResponseWriter, r *http.Request) {
 // Returns an HTTP status code, response body and error
 func (c *Client) apiRequest(method string, path string, reqBody *[]byte) (int, []byte, error) {
 	var (
-		url      string = apiEndpoint + path
+		url      = apiEndpoint + path
 		req      *http.Request
 		res      *http.Response
 		resBody  []byte
 		err      error
-		apiError *ApiError
+		apiError *APIError
 	)
 
 	// Log requests
@@ -125,7 +129,7 @@ func (c *Client) apiRequest(method string, path string, reqBody *[]byte) (int, [
 	}
 
 	// Authenticate and set the right content type, so important
-	req.SetBasicAuth(c.Username, c.ApiKey)
+	req.SetBasicAuth(c.Username, c.APIKey)
 	req.Header.Set("Content-Type", "application/json")
 
 	// Fire away

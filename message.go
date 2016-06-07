@@ -2,10 +2,11 @@ package kik
 
 import "encoding/json"
 
-// Type for both inbound and outbound messages
+// Message is used to serialize and unserialize both inbound and outbound
+// messages alike
 type Message struct {
-	ChatId               string     `json:"chatId,omitempty"`
-	Id                   string     `json:"id,omitempty"`
+	ChatID               string     `json:"chatId,omitempty"`
+	ID                   string     `json:"id,omitempty"`
 	Type                 string     `json:"type,omitempty"`
 	To                   string     `json:"to,omitempty"`
 	From                 string     `json:"from,omitempty"`
@@ -18,7 +19,7 @@ type Message struct {
 	Keyboards            []Keyboard `json:"keyboards,omitempty"`
 }
 
-// Send messages to Kik
+// SendMessages sends a slice of messages to Kik
 //
 // POST /message
 func (c *Client) SendMessages(m []Message) error {

@@ -2,11 +2,13 @@ package kik
 
 import "encoding/json"
 
+// Config is used to configure the Kik client on the server
 type Config struct {
 	Webhook  *string  `json:"webhook"`
 	Features Features `json:"features"`
 }
 
+// Features contains Kik bot configuration features
 type Features struct {
 	ReceiveReadReceipts      bool `json:"receiveReadReceipts"`
 	ReceiveIsTyping          bool `json:"receiveIsTyping"`
@@ -14,7 +16,7 @@ type Features struct {
 	ReceiveDeliveryReceipts  bool `json:"receiveDeliveryReceipts"`
 }
 
-// Set bot configuration
+// SetConfig sets the bot configuration
 //
 // POST /config
 func (c *Client) SetConfig(config Config) error {
@@ -27,7 +29,7 @@ func (c *Client) SetConfig(config Config) error {
 	return err
 }
 
-// Get bot configuration
+// GetConfig returns the bot configuration
 //
 // GET /config
 func (c *Client) GetConfig() (conf Config, err error) {
