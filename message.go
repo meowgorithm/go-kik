@@ -17,6 +17,39 @@ type Message struct {
 	Mention              *string    `json:"mentions,omitempty"`
 	TypeTime             int        `json:"typeTime,omitempty"`
 	Keyboards            []Keyboard `json:"keyboards,omitempty"`
+
+	// Pictures
+	PicURL string `json:"picUrl,omitempty"`
+
+	// Attribution
+	//
+	// Note that attribution values can either be a JSON object (see the
+	// `Attribution` struct below) or a couple of strings:
+	//
+	// `gallery`, which gives it the default 'gallery' message name and icon
+	// `camera` which gives it the default 'camera' message name and icon
+	//
+	// For more info see:
+	// https://dev.kik.com/#/docs/messaging#picture
+	Attribution interface{} `json:"attribution,omitempty"`
+}
+
+// Attribution storkes Kik-supported content attribution fields
+type Attribution struct {
+	Name    string `json:"name,omitempty"`
+	IconURL string `json:"iconUrl,omitempty"`
+}
+
+// NewPictureMessage is a helper function for creating new picture message
+// structs for the purpose of sending.
+func NewPictureMessage(chatID *string, to *string, picURL *string, attribution interface{}) Message {
+	return Message{
+		Type:        Picture,
+		ChatID:      *chatID,
+		To:          *to,
+		PicURL:      *picURL,
+		Attribution: attribution,
+	}
 }
 
 // SendMessages sends a slice of messages to Kik
