@@ -21,6 +21,13 @@ type Message struct {
 	// Pictures
 	PicURL string `json:"picUrl,omitempty"`
 
+	// Links
+	URL       string                 `json:"url,omitempty"`
+	Title     map[string]interface{} `json:"title,omitempty"`
+	Text      map[string]interface{} `json:"text,omitempty"`
+	NoForward bool                   `json:"noForward,omitempty"`
+	KikJSData map[string]interface{} `json:"kikJsData,omitempty"`
+
 	// Attribution
 	//
 	// Note that attribution values can either be a JSON object (see the
@@ -48,6 +55,18 @@ func NewPictureMessage(chatID *string, to *string, picURL *string, attribution i
 		ChatID:      *chatID,
 		To:          *to,
 		PicURL:      *picURL,
+		Attribution: attribution,
+	}
+}
+
+// NewLinkMessage is a helper function for creating new link-type message
+// structs for the purpose of sending.
+func NewLinkMessage(chatID *string, to *string, url *string, attribution interface{}) Message {
+	return Message{
+		Type:        Link,
+		ChatID:      *chatID,
+		To:          *to,
+		URL:         *url,
 		Attribution: attribution,
 	}
 }

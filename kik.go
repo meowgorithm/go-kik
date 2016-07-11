@@ -10,9 +10,14 @@ import (
 
 const (
 
-	// Kik message types
-	Text    string = "text" // the default
+	// Text is the default Kik message type: plain text
+	Text string = "text"
+
+	// Picture is the type for a picture message
 	Picture string = "picture"
+
+	// Link is the type for a link message
+	Link string = "link"
 
 	// Suggested is the deafult keyboard type
 	Suggested string = "suggested"
