@@ -18,93 +18,95 @@ your development machine over SSL.
 
 ## Quick Example
 
-    package main
+```go
+package main
 
-    import (
-        "kik"
-        "log"
-        "net/http"
-    )
+import (
+    "kik"
+    "log"
+    "net/http"
+)
 
-    var (
-        client *kik.Client
-        webhookUrl string // public-facing URL
-    )
+var (
+    client *kik.Client
+    webhookUrl string // public-facing URL
+)
 
-    func main() {
+func main() {
 
-        // Client for making API requests
+    // Client for making API requests
 
-        client = &kik.Client{
-            Username: "username",
-            ApiKey:   "api-key",
-            Callback: handleMessages,
-            Verbose:  true,
-        }
-
-        // Check Kik config
-
-        if _, err := client.GetConfig(), err != nil {
-            log.Printf("Error reading config: %s", err)
-        }
-
-        // Set Kik config
-
-        config := kik.Config{
-            Callback: &webhookUrl,
-            Features: kik.Features{
-                ReceiveReadReceipts:      false,
-                ReceiveIsTyping:          false,
-                ManuallySendReadReceipts: false,
-                ReceiveDeliveryReceipts:  false,
-            },
-        }
-        if err := client.SetConfig(config); err != nil {
-            log.Printf("Error setting config: %s\n", err)
-        }
-
-        // Incoming webhook handler for Kik
-
-        http.HandleFunc("/", client.Webhook)
-        http.ListenAndServe(":8000", nil)
+    client = &kik.Client{
+        Username: "username",
+        ApiKey:   "api-key",
+        Callback: handleMessages,
+        Verbose:  true,
     }
 
-    // Handle incoming messages
+    // Check Kik config
 
-    func handleMessages(p kik.Payload, err error) {
+    if _, err := client.GetConfig(), err != nil {
+        log.Printf("Error reading config: %s", err)
+    }
 
-        // Custom keyboard
+    // Set Kik config
 
-        k := []kik.Keyboard{
-            kik.Keyboard{
-                Hidden:    false,
-                Type:      kik.Suggested,
-                Responses: []kik.KeyboardResponse{
-                    kik.KeyboardResponse{
-                        Type: kik.Text,
-                        Body: "What a Button",
-                    },
+    config := kik.Config{
+        Callback: &webhookUrl,
+        Features: kik.Features{
+            ReceiveReadReceipts:      false,
+            ReceiveIsTyping:          false,
+            ManuallySendReadReceipts: false,
+            ReceiveDeliveryReceipts:  false,
+        },
+    }
+    if err := client.SetConfig(config); err != nil {
+        log.Printf("Error setting config: %s\n", err)
+    }
+
+    // Incoming webhook handler for Kik
+
+    http.HandleFunc("/", client.Webhook)
+    http.ListenAndServe(":8000", nil)
+}
+
+// Handle incoming messages
+
+func handleMessages(p kik.Payload, err error) {
+
+    // Custom keyboard
+
+    k := []kik.Keyboard{
+        kik.Keyboard{
+            Hidden:    false,
+            Type:      kik.Suggested,
+            Responses: []kik.KeyboardResponse{
+                kik.KeyboardResponse{
+                    Type: kik.Text,
+                    Body: "What a Button",
                 },
             },
-        }
-
-        // Reply to incoming messages
-
-        var m []kik.Message
-        for _, in := range p.Messages {
-            out := Message{
-                ChatId:    in.ChatId,
-                To:        in.From,
-                Body:      "Hello world!",
-                Keyboards: k
-            }
-            m = append(m, out)
-        }
-
-        // Send messages
-
-        client.SendMessages(m)
+        },
     }
+
+    // Reply to incoming messages
+
+    var m []kik.Message
+    for _, in := range p.Messages {
+        out := Message{
+            ChatId:    in.ChatId,
+            To:        in.From,
+            Body:      "Hello world!",
+            Keyboards: k
+        }
+        m = append(m, out)
+    }
+
+    // Send messages
+
+    client.SendMessages(m)
+}
+```
 
 ## Author
 
